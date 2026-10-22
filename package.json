@@ -1,0 +1,8 @@
+{
+  "name": "web3d-elevate",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  }
+}
