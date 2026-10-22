@@ -1,18 +1,10 @@
-# WEB3D Elevate — deploy
+# WEB3D Elevate — LIVE build
 
-Upload the CONTENTS of this folder to the root of your GitHub repo, then import it in Vercel (Framework preset: **Other**, no build command).
+This build calls the real server functions. It will show "Something went wrong" until the keys below are set in Vercel.
 
-- `/` → index.html (self-contained; demo mode by default)
-- `/nfc/` → Disconnected Data experience
-- `/api/analyze` stage-1 quick plan · `/api/company` official-site lookup · `/api/research` stage-2 sourced research · `/api/lead` lead capture
+Vercel → Project → Settings → Environment Variables (Production), then **Redeploy**:
+- `OPENAI_API_KEY`, `OPENAI_MODEL` — required (AI plan)
+- `SEARCH_PROVIDER` = `tavily` + `TAVILY_API_KEY` (or `brave` + `BRAVE_API_KEY`) — required for company research
+- Lead destination, at least one: `LEAD_WEBHOOK_URL` · or `MONDAY_API_TOKEN` + `MONDAY_BOARD_ID` · or `RESEND_API_KEY` + `LEAD_NOTIFY_TO` + `LEAD_NOTIFY_FROM`
 
-## Environment variables (Vercel → Settings → Environment Variables)
-- AI (required for live plans): `OPENAI_API_KEY`, `OPENAI_MODEL`
-- Web search (required for research): `SEARCH_PROVIDER` = `tavily` or `brave`, plus `TAVILY_API_KEY` or `BRAVE_API_KEY`
-- Lead destination (at least one): `LEAD_WEBHOOK_URL` (+ `LEAD_WEBHOOK_SECRET`) · or `MONDAY_API_TOKEN` + `MONDAY_BOARD_ID` · or `RESEND_API_KEY` + `LEAD_NOTIFY_TO` + `LEAD_NOTIFY_FROM`
-- Optional: `ALLOWED_ORIGIN`
-
-## Switch from demo to live
-In Claude Design edit `elevate-config.js`: `provider: "server"`, set `endpoints` to `/api/analyze`, `/api/company`, `/api/research`, `/api/lead`, and set `lead.privacyUrl`. Re-export.
-
-Lead capture returns success only after a configured destination acknowledges it. The in-memory rate limiter is per-instance — back it with Vercel KV/Upstash before the event. Never commit keys.
+Test after deploy: open `/`, submit a real company you know, confirm the website, check the source links, then submit a test lead and confirm it arrived.
